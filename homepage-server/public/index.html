@@ -12,14 +12,16 @@
   <body>
     <header>
       <span>minimal-secure-app</span>
-      <span>
+      <span id="auth-buttons">
         <button id="login">Login</button>
         <button id="register">Register</button>
       </span>
+      <div id="user-button" hidden></div>
     </header>
     <main>
       <h1>Welcome</h1>
-      <p>Placeholder homepage. Login/Register will be wired up to Clerk.</p>
+      <p>Placeholder homepage. Register or log in above to get started.</p>
     </main>
+    <script src="/app.js" defer></script>
   </body>
 </html>

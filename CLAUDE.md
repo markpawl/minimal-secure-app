@@ -56,6 +56,12 @@ Express app split into `src/app.ts` (app factory, `createApp()`, imported direct
 
 Express app split the same way (`src/app.ts` / `src/index.ts`). Serves the static homepage from `public/` and exposes only the Clerk *publishable* key to the browser via `GET /config.json` — the secret key never leaves the server.
 
+Client-side auth (`public/app.js`) is plain JS + Clerk's hosted script, not `@clerk/react` — there's no bundler here, unlike `webapp-client`. Key points:
+
+- The Clerk script **must** be loaded from your own Clerk Frontend API domain (`https://<frontend-api>/npm/@clerk/clerk-js@latest/dist/clerk.browser.js`), not a generic CDN like jsdelivr — loading `clerk.browser.js` from jsdelivr fails with `"Clerk was not loaded with Ui components"` when you call `mountUserButton`/open the modals. `app.js` derives the frontend API host client-side from the publishable key itself (`base64("<frontend-api>$")`, stripped of the `pk_test_`/`pk_live_` prefix and trailing `$`) — the same trick Clerk's own SDKs use internally.
+- Login/register/logout/password-reset are all Clerk's own modals (`openSignIn()`/`openSignUp()`) and `mountUserButton()` (which includes sign-out) — no custom forms.
+- **Build hygiene**: both `application-server/tsconfig.json` and `homepage-server/tsconfig.json` `exclude` `src/**/*.test.ts` — without it, `tsc` compiles test files into `dist/`, and Vitest picks those up too (alongside the `src/` originals), silently double-running every test. Keep this exclusion if you touch either tsconfig.
+
 ## Notes for future work
 
 - The project root and its git/GitHub repo are currently named `minimal-secure-app`. There's a plan to rename both to `secure-app-starter` — that requires manual steps outside of file edits (renaming the GitHub repo, updating the local remote URL, etc.), not yet done.
