@@ -39,11 +39,14 @@ Each runnable component has its own `package.json`, dependencies, and commands �
 
 ### webapp-client
 
-Standard Vite + React + TypeScript SPA, currently a fresh scaffold (single `App` component in `src/App.tsx`, entry point `src/main.tsx`).
+Vite + React + TypeScript SPA. `src/main.tsx` wraps `<App />` in `<ClerkProvider>` (publishable key from `VITE_CLERK_PUBLISHABLE_KEY`, resolved/validated in `src/clerkPublishableKey.ts` — kept out of `main.tsx` itself so the entry file has no non-JSX top-level exports, which otherwise trips the `react-refresh/only-export-components` ESLint rule). `App.tsx` uses `@clerk/react`'s `<Show when="signed-out">` / `<Show when="signed-in">` (not the older `<SignedIn>`/`<SignedOut>` — see below) to gate the login screen (`<SignIn />`) vs. the authenticated shell (`<UserButton />` + app content).
 
+- **Use `@clerk/react`, not `@clerk/clerk-react`** — the latter is deprecated (Clerk's Core 3 upgrade). `@clerk/react` also renamed the `SignedIn`/`SignedOut` control components to a single `<Show when="signed-in" | "signed-out">`.
+- Tests mock `@clerk/react` entirely (see `src/App.test.tsx`) rather than exercising real Clerk auth state — `Show` mocks render both branches unconditionally, since gating behavior is Clerk's own responsibility, not this app's.
 - TypeScript project uses composite references: `tsconfig.json` points to `tsconfig.app.json` (app/browser code, `src/`) and `tsconfig.node.json` (Node-side config files like `vite.config.ts`). Use the right `tsc` project when reasoning about type errors in config files vs. app code.
 - Vitest is configured inside `vite.config.ts` (not a separate config file), using `jsdom` and `globals: true`. Test setup (`@testing-library/jest-dom`) is loaded via `src/setupTests.ts`. Tests live alongside source files as `*.test.tsx`.
 - Module resolution is `bundler` mode with `verbatimModuleSyntax` enabled — type-only imports must use `import type`.
+- **Dev server + Dropbox**: if this repo lives inside a Dropbox-synced folder, `npm run dev` can fail repeatedly with `EBUSY` while Vite's dependency optimizer renames `node_modules/.vite/deps_temp_*` into place (Dropbox locks the folder mid-rename). `npm run build && npm run preview` avoids this (no dep-optimizer step) and is a reliable way to sanity-check the app if `dev` is stuck in this loop. Real fix is excluding `node_modules` (and ideally `dist`, `.vite`) from Dropbox sync for this project.
 
 ### application-server
 

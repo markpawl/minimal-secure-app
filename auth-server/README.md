@@ -13,7 +13,7 @@ Clerk is used instead of a self-hosted auth solution so that `webapp-client` and
 ## How each component integrates with Clerk
 
 - **`homepage-server`** — Serves its Clerk *publishable* key to the browser via `GET /config.json`. Registration/login on the homepage happens client-side, directly against Clerk's API, using that key. The server itself never sees credentials or the secret key.
-- **`webapp-client`** — Same pattern: uses the Clerk frontend SDK/publishable key in the browser for login, logout, and password reset. Persists the resulting session (JWT) for the duration of the session; caches only the user's email locally as a login-form convenience (never the password).
+- **`webapp-client`** — Uses `@clerk/react`'s prebuilt components: `<ClerkProvider>` (wrapping the app in `main.tsx`), `<Show when="signed-out"><SignIn /></Show>` for the login screen, and `<Show when="signed-in">` + `<UserButton />` for the authenticated shell (which also provides sign-out). No custom login form — Clerk's hosted UI handles login, logout, and password reset ("Forgot password?" is built into `<SignIn />`) without additional code here.
 - **`application-server`** — The only component that holds a Clerk *secret* key. It verifies incoming JWTs using `@clerk/express`'s `clerkMiddleware()`. See the design decision below about how unauthenticated requests are handled.
 
 ## Key handling
@@ -23,6 +23,7 @@ Clerk is used instead of a self-hosted auth solution so that `webapp-client` and
 
 ## Design decisions
 
+- **Use `@clerk/react`, not `@clerk/clerk-react`.** The latter is deprecated as of Clerk's Core 3 upgrade. `@clerk/react` also replaces the old `<SignedIn>`/`<SignedOut>` control components with a single `<Show when="signed-in" | "signed-out">`.
 - **JSON APIs return 401, not a redirect.** `@clerk/express`'s built-in `requireAuth()` middleware redirects (302) unauthenticated requests to a sign-in page — it's designed for server-rendered browser apps, not a JSON API. `application-server` uses its own guard (`clerkMiddleware()` + a custom check via `getAuth(req)`) that returns `401 Unauthorized` JSON instead, matching sequence 6 in `docs/OVERVIEW.md`.
 - **No self-hosted user database (yet).** Clerk is the system of record for identity and credentials. Application-specific data that Clerk doesn't natively model (e.g. custom user preferences) is expected to live in `application-server`'s own storage, added when that need arises — not designed yet.
 
