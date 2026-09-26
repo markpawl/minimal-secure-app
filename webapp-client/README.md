@@ -21,4 +21,4 @@ Copy `.env.example` to `.env` and fill in:
 
 ## Known issue: dev server + Dropbox
 
-This repo lives inside a Dropbox-synced folder, which caused `npm run dev` to fail repeatedly with `EBUSY` while Vite's dependency optimizer renamed `node_modules/.vite/deps_temp_*` into place (Dropbox locks the folder mid-sync). Fixed by marking `node_modules/` and `dist/` as Dropbox-ignored — see the note in `../CLAUDE.md` for the exact command (Windows vs. Mac) and why this needs reapplying after a clean `node_modules` reinstall. If `dev` starts looping on `EBUSY` again, that's the first thing to check; `npm run build && npm run preview` is a reliable fallback in the meantime.
+`npm run dev` can fail repeatedly with `EBUSY` because this repo lives inside a Dropbox-synced folder — see [`../docs/DROPBOX_SYNC.md`](../docs/DROPBOX_SYNC.md) for the symptom and fix. `npm run build && npm run preview` is a reliable fallback in the meantime.

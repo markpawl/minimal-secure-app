@@ -46,10 +46,7 @@ Vite + React + TypeScript SPA. `src/main.tsx` wraps `<App />` in `<ClerkProvider
 - TypeScript project uses composite references: `tsconfig.json` points to `tsconfig.app.json` (app/browser code, `src/`) and `tsconfig.node.json` (Node-side config files like `vite.config.ts`). Use the right `tsc` project when reasoning about type errors in config files vs. app code.
 - Vitest is configured inside `vite.config.ts` (not a separate config file), using `jsdom` and `globals: true`. Test setup (`@testing-library/jest-dom`) is loaded via `src/setupTests.ts`. Tests live alongside source files as `*.test.tsx`.
 - Module resolution is `bundler` mode with `verbatimModuleSyntax` enabled — type-only imports must use `import type`.
-- **Dev server + Dropbox**: this repo lives inside a Dropbox-synced folder, which caused `npm run dev` to fail repeatedly with `EBUSY` while Vite's dependency optimizer renamed `node_modules/.vite/deps_temp_*` into place (Dropbox locked the folder mid-rename). Fixed by marking each project's `node_modules/` and `dist/` as Dropbox-ignored (Dropbox's "Ignored Files" feature — a hidden per-folder marker, not a right-click menu option):
-  - **Windows** (already applied here, 2026-09-26): `Set-Content -Path <path> -Stream com.dropbox.ignored -Value 1` in PowerShell.
-  - **Mac**: `xattr -w com.dropbox.ignored 1 <path>` in Terminal.
-  - This marks a specific folder instance, not a pattern — a fresh `rm -rf node_modules && npm install` (or a first `npm install`/`npm run build` on a machine that hasn't had this applied yet, e.g. the Mac side) recreates the folder without the marker and needs it reapplied. If `npm run dev` starts failing with `EBUSY` again, this is the first thing to check. `npm run build && npm run preview` doesn't hit this (no dep-optimizer step) and is a reliable fallback to sanity-check the app in the meantime.
+- **Dev server + Dropbox**: `npm run dev` can fail with `EBUSY` because this repo lives inside a Dropbox-synced folder — see [`docs/DROPBOX_SYNC.md`](docs/DROPBOX_SYNC.md) for the symptom and fix.
 
 ### application-server
 

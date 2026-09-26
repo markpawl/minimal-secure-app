@@ -34,6 +34,8 @@ All components currently run locally (each with its own `npm run dev`, see each 
 
 There's no orchestration (e.g. Docker Compose) to run all three components together yet — see "Future enhancements" below.
 
+This repo lives inside a Dropbox-synced folder (synced between Mac and Windows). If `npm run dev` fails with `EBUSY`, see [`DROPBOX_SYNC.md`](DROPBOX_SYNC.md).
+
 ## Future enhancements
 
 - **Docker Compose for local dev** — run `webapp-client`, `homepage-server`, and `application-server` together with one command.
