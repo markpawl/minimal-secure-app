@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@clerk/express": "^1.7.28",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
     "@types/node": "^24.13.3",
     "@types/supertest": "^7.2.1",

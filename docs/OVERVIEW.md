@@ -4,7 +4,7 @@ This repository is a monorepo starter for SaaS apps that need registration/login
 
 ## Status
 
-`webapp-client` and `homepage-server` are wired up to Clerk (registration, login, logout, password reset). `webapp-client` also has account settings, profile (Clerk's `<UserProfile />`), and preferences (custom page, stored in Clerk's `unsafeMetadata`). `application-server` verifies JWTs but doesn't yet serve real application data (the splash-image endpoint in sequences 5–6 is still to be built). This document captures the intended purpose, system components, and interaction flows to guide that implementation.
+`webapp-client` and `homepage-server` are wired up to Clerk (registration, login, logout, password reset). `webapp-client` also has account settings, profile (Clerk's `<UserProfile />`), and preferences (custom page, stored in Clerk's `unsafeMetadata`). `application-server` implements sequences 5–6: `GET /api/splash-images` (list) and `GET /api/splash-images/:id` (fetch), both JWT-protected, serving a small built-in asset set (currently one image, `sun`). `webapp-client` doesn't call these endpoints from its UI yet — that's the next piece. This document captures the intended purpose, system components, and interaction flows to guide that implementation.
 
 See [`CLAUDE.md`](../CLAUDE.md) for commands and architecture notes, and [`../auth-server/README.md`](../auth-server/README.md) for Clerk-specific design decisions.
 

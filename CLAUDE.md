@@ -52,7 +52,11 @@ Vite + React + TypeScript SPA. `src/main.tsx` wraps `<App />` in `<ClerkProvider
 
 ### application-server
 
-Express app split into `src/app.ts` (app factory, `createApp()`, imported directly by tests) and `src/index.ts` (process entry point that calls `.listen()`). Auth uses `@clerk/express`'s `clerkMiddleware()` plus a custom `requireAuth` guard in `app.ts` that returns `401` JSON — not the package's own `requireAuth()`, which redirects to a sign-in page and is meant for browser apps, not a JSON API. Tests set dummy Clerk keys via `src/setupTests.ts` (configured as Vitest's `setupFiles` in `vitest.config.ts`) so `clerkMiddleware()` can initialize without a real Clerk project.
+Express app split into `src/app.ts` (app factory, `createApp()`, imported directly by tests) and `src/index.ts` (process entry point that calls `.listen()`). Auth uses `@clerk/express`'s `clerkMiddleware()` plus a custom `requireAuth` guard in `app.ts` that returns `401` JSON — not the package's own `requireAuth()`, which redirects to a sign-in page and is meant for browser apps, not a JSON API.
+
+- **CORS**: `webapp-client` calls this API cross-origin with a Bearer JWT (no cookies), so `app.use(cors({ origin: allowedOrigins }))` is required near the top of `createApp()` — without it, every browser request fails at the CORS preflight regardless of the JWT being valid. Allowed origins come from `CORS_ORIGIN` (comma-separated).
+- **Splash images** (`src/splashImages.ts` + `assets/splash-images/`, routes in `app.ts`): a manifest maps `id` → asset file; `GET /api/splash-images` lists `{id, name}`, `GET /api/splash-images/:id` streams the file with the right `Content-Type` or `404`s. Assets live outside `src/` (same reasoning as `homepage-server`'s `public/` — data, not source `tsc` should touch) but path-resolve correctly from both `tsx` (dev, `__dirname` = `src/`) and the compiled build (`dist/index.js`, `__dirname` = `dist/`) since both sit one level below the project root.
+- **Testing Clerk-protected routes**: `src/app.test.ts` fully mocks `@clerk/express` (a fake `clerkMiddleware` that reads a `x-test-auth` header instead of verifying a real JWT) rather than relying on the dummy Clerk keys in `src/setupTests.ts` — that gets full route-logic coverage (200/401/404 paths) without a network call to Clerk. `setupTests.ts` remains as Vitest's `setupFiles` fallback for any test file that doesn't mock `@clerk/express` itself.
 
 ### homepage-server
 
