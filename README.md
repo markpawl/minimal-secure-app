@@ -6,6 +6,9 @@ See [`docs/OVERVIEW.md`](docs/OVERVIEW.md) for the full component breakdown and 
 
 ## Components
 
-- [`minimal-secure-app/`](minimal-secure-app) — the starter webapp client (React + Vite + TypeScript)
-- [`saas-homepage-shell/`](saas-homepage-shell) — marketing/registration site (Node.js + Express)
+- [`webapp-client/`](webapp-client) — the starter webapp client (React + Vite + TypeScript)
+- [`homepage-server/`](homepage-server) — marketing/registration site (Node.js + Express)
 - [`application-server/`](application-server) — JWT-protected API server (Node.js + Express)
+- [`auth-server/`](auth-server) — no code; documentation and design decisions for this project's use of [Clerk](https://clerk.com)
+
+> **Note:** this repo is expected to be renamed to `secure-app-starter` (along with its GitHub repo) in a future step.

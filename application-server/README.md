@@ -1,6 +1,6 @@
 # application-server
 
-Lightweight API server for the SaaS application services. Most endpoints require a JWT (issued by Clerk) for authentication/authorization. Meant to be built upon, in the same way as `minimal-secure-app`.
+Lightweight API server for the SaaS application services. Most endpoints require a JWT (issued by Clerk) for authentication/authorization. Meant to be built upon, in the same way as `webapp-client`.
 
 See [`../docs/OVERVIEW.md`](../docs/OVERVIEW.md) for this component's role and interaction sequences.
 

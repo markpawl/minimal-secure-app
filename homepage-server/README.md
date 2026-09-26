@@ -1,4 +1,4 @@
-# saas-homepage-shell
+# homepage-server
 
 Marketing/registration site where users sign up for the SaaS service. Serves a static homepage and exposes the Clerk publishable key to the client for sign-up/sign-in.
 
