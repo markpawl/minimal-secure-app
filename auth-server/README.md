@@ -4,6 +4,8 @@ This folder holds documentation and design decisions for this project's use of [
 
 See [`../docs/OVERVIEW.md`](../docs/OVERVIEW.md) for the full set of interaction sequences (registration, login, logout, password reset) that Clerk drives.
 
+Account-specific details (dashboard link, publishable/secret keys, etc.) live in `clerk-account.local.md` in this folder — gitignored, never committed. Fill it in locally; each runnable component also has its own `.env.example` for the subset of those values it actually needs at runtime.
+
 ## Why Clerk
 
 Clerk is used instead of a self-hosted auth solution so that `webapp-client` and `homepage-server` can be a *minimal* starting point — registration, login, logout, session management, and password reset are delegated entirely to Clerk rather than implemented in this codebase.
