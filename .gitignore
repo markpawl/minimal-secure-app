@@ -8,7 +8,8 @@
 Thumbs.db
 
 # Editor
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 .idea/
 
 # Dependencies
@@ -18,7 +19,9 @@ __pycache__/
 
 # Build output
 dist/
+dist-ssr/
 build/
+*.local
 
 # Logs
 *.log
