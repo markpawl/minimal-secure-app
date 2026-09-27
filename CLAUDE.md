@@ -70,5 +70,5 @@ Client-side auth (`public/app.js`) is plain JS + Clerk's hosted script, not `@cl
 
 ## Notes for future work
 
-- The project root and its git/GitHub repo are currently named `minimal-secure-app`. There's a plan to rename both to `secure-app-starter` — that requires manual steps outside of file edits (renaming the GitHub repo, updating the local remote URL, etc.), not yet done.
+- The project root and its git/GitHub repo are currently named `secure-app-starter`. There's a plan to rename both to `secure-app-starter` — that requires manual steps outside of file edits (renaming the GitHub repo, updating the local remote URL, etc.), not yet done.
 - No orchestration (e.g. Docker Compose) exists yet to run all three components together for local dev — see "Future enhancements" in [`docs/OVERVIEW.md`](docs/OVERVIEW.md).

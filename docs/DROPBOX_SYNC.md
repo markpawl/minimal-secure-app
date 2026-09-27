@@ -1,6 +1,6 @@
 # Dropbox sync vs. node_modules/dist
 
-This repo lives inside a Dropbox-synced folder (`.../Dropbox/dev-dropbox/minimal-secure-app`), which is used to keep the project in sync between a Mac and a Windows machine. Dropbox actively locks files while it syncs, and that conflicts with tools that do rapid renames inside `node_modules`/`dist` — most notably Vite's dependency optimizer.
+This repo lives inside a Dropbox-synced folder (`.../Dropbox/dev-dropbox/secure-app-starter`), which is used to keep the project in sync between a Mac and a Windows machine. Dropbox actively locks files while it syncs, and that conflicts with tools that do rapid renames inside `node_modules`/`dist` — most notably Vite's dependency optimizer.
 
 ## Symptom
 

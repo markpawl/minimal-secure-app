@@ -1,4 +1,4 @@
-# minimal-secure-app
+# secure-app-starter
 
 Monorepo for a minimal, secure SaaS starter: a registration/login-enabled webapp client, a homepage/registration site, and a JWT-protected API server, all backed by Clerk for authentication.
 

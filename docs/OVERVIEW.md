@@ -26,7 +26,7 @@ The system provides registration, login, logout, account settings, user profile,
 
 This is a single monorepo containing all components, which is fine for a starter/template repo — whoever builds on this template is free to split it into separate repos if that suits their setup better.
 
-The project root and its git/GitHub repo are currently named `minimal-secure-app`; there's a plan to rename both to `secure-app-starter` once the manual GitHub rename steps are walked through (tracked outside this doc).
+The project root and its git/GitHub repo are currently named `secure-app-starter`; there's a plan to rename both to `secure-app-starter` once the manual GitHub rename steps are walked through (tracked outside this doc).
 
 ## Local development
 
